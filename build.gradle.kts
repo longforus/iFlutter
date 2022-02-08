@@ -130,7 +130,7 @@ tasks {
 
     runIde {
         jbrVersion.set("11_0_10b1145.115")
-        ideDir.set(file("/Applications/Android Studio.app/Contents"))
+        ideDir.set(file("C:\\Users\\admin\\Downloads\\developer\\android-studio"))
     }
 }
 
