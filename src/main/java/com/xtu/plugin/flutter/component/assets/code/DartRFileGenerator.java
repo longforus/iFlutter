@@ -5,16 +5,19 @@ import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.xtu.plugin.flutter.service.StorageService;
-import com.xtu.plugin.flutter.utils.*;
-import org.apache.commons.lang.StringUtils;
-import org.jetbrains.annotations.NotNull;
-
+import com.xtu.plugin.flutter.utils.CollectionUtils;
+import com.xtu.plugin.flutter.utils.DartUtils;
+import com.xtu.plugin.flutter.utils.LogUtils;
+import com.xtu.plugin.flutter.utils.StringUtil;
+import com.xtu.plugin.flutter.utils.ToastUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.NotNull;
 
 public class DartRFileGenerator {
 
@@ -83,9 +86,10 @@ public class DartRFileGenerator {
                 .append("// ignore_for_file: lines_longer_than_80_chars\n")
                 .append("class ").append(className).append(" {\n");
         if (!CollectionUtils.isEmpty(assetFileNames)) {
+            boolean usingUpperCaseResName = StorageService.getInstance(project).getState().usingUpperCaseResName;
             for (String assetFileName : assetFileNames) {
                 if (needIgnoreAsset(project, assetFileName)) continue;
-                String variantName = getResName(assetFileName);
+                String variantName = getResName(assetFileName, usingUpperCaseResName);
                 fileStringBuilder.append("  static const String ").append(variantName).append(" = '").append(assetFileName).append("';\n");
             }
         }
@@ -105,17 +109,17 @@ public class DartRFileGenerator {
         return fileName;
     }
 
-    private String getResName(String assetFileName) {
+    private String getResName(String assetFileName,boolean uppercase) {
         int startIndex = assetFileName.lastIndexOf("/") + 1;
         int endIndex = assetFileName.lastIndexOf(".");
         if (endIndex < startIndex) {
             endIndex = assetFileName.length();
         }
         String variantName = assetFileName.substring(startIndex, endIndex)
-                .toUpperCase()
                 .replace("-", "_");
-        //replace specific char
-        variantName = variantName.replace("-", "_");
+        if (uppercase){
+            variantName = variantName.toUpperCase();
+        }
         return variantName;
     }
 

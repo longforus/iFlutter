@@ -19,12 +19,13 @@ public final class SettingsConfiguration implements SearchableConfigurable {
 
     private final Project project;
 
-    private JPanel rootPanel;
+    private JPanel     rootPanel;
     private JTextField resDetectField;
     private JTextField ignoreResField;
-    private JCheckBox flutter2EnableBox;
-    private JCheckBox resCheckEnableBox;
-    private JCheckBox updatePubsepcEnableBox;
+    private JCheckBox  flutter2EnableBox;
+    private JCheckBox  resCheckEnableBox;
+    private JCheckBox  updatePubsepcEnableBox;
+    private JCheckBox  usingUppercaseResNameBox;
 
     public SettingsConfiguration(Project project) {
         this.project = project;
@@ -53,10 +54,10 @@ public final class SettingsConfiguration implements SearchableConfigurable {
     @Override
     public boolean isModified() {
         StorageEntity storageEntity = getStorageEntity();
-        return !CollectionUtils.join(storageEntity.resDir, LIST_SPLIT_CHAR).equals(resDetectField.getText().trim())
-                || !CollectionUtils.join(storageEntity.ignoreResExtension, LIST_SPLIT_CHAR).equals(ignoreResField.getText().trim())
-                || storageEntity.flutter2Enable != flutter2EnableBox.isSelected()
-                || storageEntity.resCheckEnable != resCheckEnableBox.isSelected() || storageEntity.updatePubsepc != updatePubsepcEnableBox.isSelected() ;
+        return !CollectionUtils.join(storageEntity.resDir, LIST_SPLIT_CHAR).equals(resDetectField.getText().trim()) || !CollectionUtils.join(storageEntity.ignoreResExtension,
+            LIST_SPLIT_CHAR).equals(ignoreResField.getText().trim()) || storageEntity.flutter2Enable != flutter2EnableBox.isSelected() ||
+            storageEntity.resCheckEnable != resCheckEnableBox.isSelected() || storageEntity.updatePubsepc != updatePubsepcEnableBox.isSelected() ||
+            storageEntity.usingUpperCaseResName != usingUppercaseResNameBox.isSelected();
     }
 
     @Override
@@ -69,19 +70,19 @@ public final class SettingsConfiguration implements SearchableConfigurable {
         flutter2EnableBox.setSelected(storageEntity.flutter2Enable);
         resCheckEnableBox.setSelected(storageEntity.resCheckEnable);
         updatePubsepcEnableBox.setSelected(storageEntity.updatePubsepc);
+        usingUppercaseResNameBox.setSelected(storageEntity.usingUpperCaseResName);
     }
 
     @Override
     public void apply() throws ConfigurationException {
         StorageEntity storageEntity = getStorageEntity();
         String resStr = resDetectField.getText().trim();
-        storageEntity.resDir = StringUtils.isEmpty(resStr) ?
-                Collections.emptyList() : CollectionUtils.split(resStr, LIST_SPLIT_CHAR);
+        storageEntity.resDir = StringUtils.isEmpty(resStr) ? Collections.emptyList() : CollectionUtils.split(resStr, LIST_SPLIT_CHAR);
         String ignoreResExtensionStr = ignoreResField.getText().trim();
-        storageEntity.ignoreResExtension = StringUtils.isEmpty(ignoreResExtensionStr) ?
-                Collections.emptyList() : CollectionUtils.split(ignoreResExtensionStr, LIST_SPLIT_CHAR);
+        storageEntity.ignoreResExtension = StringUtils.isEmpty(ignoreResExtensionStr) ? Collections.emptyList() : CollectionUtils.split(ignoreResExtensionStr, LIST_SPLIT_CHAR);
         storageEntity.flutter2Enable = flutter2EnableBox.isSelected();
         storageEntity.resCheckEnable = resCheckEnableBox.isSelected();
         storageEntity.updatePubsepc = updatePubsepcEnableBox.isSelected();
+        storageEntity.usingUpperCaseResName = usingUppercaseResNameBox.isSelected();
     }
 }

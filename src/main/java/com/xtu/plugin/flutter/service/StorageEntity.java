@@ -21,9 +21,11 @@ public class StorageEntity {
     //是否打开资源变更检查
     public boolean resCheckEnable = true;
     //是否更新到pubspec.yaml文件
-    public boolean updatePubsepc = true;
+    public boolean          updatePubsepc        = true;
+    //是否使用大写资源名
+    public boolean          usingUpperCaseResName = true;
     //HTTP Mock 配置
-    public List<HttpEntity> httpEntityList = new ArrayList<>();
+    public List<HttpEntity> httpEntityList       = new ArrayList<>();
     //最新版本信息
     @Transient
     public Map<String, PackageInfo> packageInfoMap = new HashMap<>();
@@ -41,6 +43,7 @@ public class StorageEntity {
                 && Objects.equals(resDir, that.resDir)
                 && Objects.equals(ignoreResExtension, that.ignoreResExtension)
                 && Objects.equals(updatePubsepc, that.updatePubsepc)
+                && Objects.equals(usingUpperCaseResName, that.usingUpperCaseResName)
                 && Objects.equals(httpEntityList, that.httpEntityList);
     }
 
@@ -52,6 +55,7 @@ public class StorageEntity {
                 ", flutter2Enable=" + flutter2Enable +
                 ", resCheckEnable=" + resCheckEnable +
                 ", updatePubsepc=" + updatePubsepc +
+                ", usingUpperCaseResName=" + usingUpperCaseResName +
                 ", httpEntityList=" + httpEntityList +
                 '}';
     }
