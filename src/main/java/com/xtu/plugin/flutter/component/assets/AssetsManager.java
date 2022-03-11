@@ -14,6 +14,7 @@ import com.xtu.plugin.flutter.service.StorageService;
 import com.xtu.plugin.flutter.utils.LogUtils;
 import com.xtu.plugin.flutter.utils.PluginUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.yaml.psi.YAMLPsiElement;
 
 /**
  * 处理flutter项目中的资源文件
@@ -107,6 +108,8 @@ public class AssetsManager {
                         GenerateResAction.generateFile(parent.getProject());
                         return true;
                     }
+                }else if (parent instanceof YAMLPsiElement){
+                    return true;
                 }
             }
             return false;
